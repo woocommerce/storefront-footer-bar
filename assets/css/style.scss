@@ -1,0 +1,18 @@
+@import 'susy';
+@import 'bourbon';
+@import '../../../../themes/storefront/sass/utils/variables';
+
+// Styles for mobile
+.sfb-footer-bar {
+	padding-top: 2.618em;
+	padding-bottom: 2.618em;
+	background-position: center center;
+
+	.widget {
+		@include clearfix;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

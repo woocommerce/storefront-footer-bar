@@ -1,0 +1,10 @@
+.sfb-footer-bar {
+  padding-top: 2.618em;
+  padding-bottom: 2.618em;
+  background-position: center center; }
+  .sfb-footer-bar .widget::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .sfb-footer-bar .widget:last-child {
+    margin-bottom: 0; }
