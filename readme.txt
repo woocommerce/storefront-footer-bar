@@ -26,7 +26,7 @@ This plugin requires the Storefront theme to be installed.
 
 = I installed the plugin but cannot see the footer bar =
 
-This plugin will only work with the <a href="http://wordpress.org/themes/storefront/">Storefront</a> theme.
+This plugin will only work with the [Storefront](http://wordpress.org/themes/storefront/) theme.
 
 == Screenshots ==
 
