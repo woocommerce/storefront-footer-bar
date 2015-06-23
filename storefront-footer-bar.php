@@ -3,11 +3,11 @@
  * Plugin Name:			Storefront Footer Bar
  * Plugin URI:			http://woothemes.com/storefront/
  * Description:			Add a full width widgetised region above the default Storefront footer widget area.
- * Version:				1.0.0
+ * Version:				1.0.1
  * Author:				WooThemes
  * Author URI:			http://woothemes.com/
  * Requires at least:	4.0.0
- * Tested up to:		4.0.0
+ * Tested up to:		4.2.2
  *
  * Text Domain: storefront-footer-bar
  * Domain Path: /languages/
@@ -84,7 +84,7 @@ final class Storefront_Footer_Bar {
 		$this->token 			= 'storefront-footer-bar';
 		$this->plugin_url 		= plugin_dir_url( __FILE__ );
 		$this->plugin_path 		= plugin_dir_path( __FILE__ );
-		$this->version 			= '1.0.0';
+		$this->version 			= '1.0.1';
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -187,8 +187,8 @@ final class Storefront_Footer_Bar {
 	 * @return  void
 	 */
 	public function sfb_install_storefront_notice() {
-		echo '<div class="updated">
-				<p>' . __( 'Storefront Footer Bar requires that you use Storefront as your parent theme.', 'storefront-footer-bar' ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_boutique' ) ) .'">' . __( 'Install Storefront now', 'storefront-footer-bar' ) . '</a></p>
+		echo '<div class="notice is-dismissible updated">
+				<p>' . __( 'Storefront Footer Bar requires that you use Storefront as your parent theme.', 'storefront-footer-bar' ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . __( 'Install Storefront now', 'storefront-footer-bar' ) . '</a></p>
 			</div>';
 	}
 

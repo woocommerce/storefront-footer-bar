@@ -1,4 +1,0 @@
-*** Storefront Footer Bar Changelog ***
-
-2015.04.22 - version 1.0.0
-* Initial release
