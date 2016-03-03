@@ -3,11 +3,11 @@
  * Plugin Name:			Storefront Footer Bar
  * Plugin URI:			http://woothemes.com/storefront/
  * Description:			Add a full width widgetised region above the default Storefront footer widget area.
- * Version:				1.0.1
+ * Version:				1.0.2
  * Author:				WooThemes
  * Author URI:			http://woothemes.com/
- * Requires at least:	4.0.0
- * Tested up to:		4.2.2
+ * Requires at least:	4.1.0
+ * Tested up to:		4.4.2
  *
  * Text Domain: storefront-footer-bar
  * Domain Path: /languages/
@@ -43,6 +43,7 @@ Storefront_Footer_Bar();
 final class Storefront_Footer_Bar {
 	/**
 	 * Storefront_Footer_Bar The single instance of Storefront_Footer_Bar.
+	 *
 	 * @var 	object
 	 * @access  private
 	 * @since 	1.0.0
@@ -51,6 +52,7 @@ final class Storefront_Footer_Bar {
 
 	/**
 	 * The token.
+	 *
 	 * @var     string
 	 * @access  public
 	 * @since   1.0.0
@@ -59,15 +61,16 @@ final class Storefront_Footer_Bar {
 
 	/**
 	 * The version number.
+	 *
 	 * @var     string
 	 * @access  public
 	 * @since   1.0.0
 	 */
 	public $version;
 
-	// Admin - Start
 	/**
 	 * The admin object.
+	 *
 	 * @var     object
 	 * @access  public
 	 * @since   1.0.0
@@ -76,15 +79,16 @@ final class Storefront_Footer_Bar {
 
 	/**
 	 * Constructor function.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
 	 */
 	public function __construct() {
-		$this->token 			= 'storefront-footer-bar';
-		$this->plugin_url 		= plugin_dir_url( __FILE__ );
-		$this->plugin_path 		= plugin_dir_path( __FILE__ );
-		$this->version 			= '1.0.1';
+		$this->token       = 'storefront-footer-bar';
+		$this->plugin_url  = plugin_dir_url( __FILE__ );
+		$this->plugin_path = plugin_dir_path( __FILE__ );
+		$this->version     = '1.0.2';
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -111,6 +115,7 @@ final class Storefront_Footer_Bar {
 
 	/**
 	 * Load the localisation file.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
@@ -125,7 +130,7 @@ final class Storefront_Footer_Bar {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr__( 'Cheatin&#8217; huh?' ), '1.0.0' );
 	}
 
 	/**
@@ -134,12 +139,13 @@ final class Storefront_Footer_Bar {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr__( 'Cheatin&#8217; huh?' ), '1.0.0' );
 	}
 
 	/**
 	 * Installation.
 	 * Runs on activation. Logs the version number and assigns a notice message to a WordPress option.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @return  void
@@ -150,6 +156,7 @@ final class Storefront_Footer_Bar {
 
 	/**
 	 * Log the plugin version number.
+	 *
 	 * @access  private
 	 * @since   1.0.0
 	 * @return  void
@@ -163,16 +170,19 @@ final class Storefront_Footer_Bar {
 	 * Setup all the things.
 	 * Only executes if Storefront or a child theme using Storefront as a parent is active and the extension specific filter returns true.
 	 * Child themes can disable this extension using the storefront_extension_boilerplate_enabled filter
+	 *
 	 * @return void
 	 */
 	public function sfb_setup() {
 		$theme = wp_get_theme();
 
 		if ( 'Storefront' == $theme->name || 'storefront' == $theme->template && apply_filters( 'storefront_footer_bar_supported', true ) ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'sfb_styles' ), 999 );
-			add_action( 'customize_register', array( $this, 'sfb_customize_register' ) );
-			add_action( 'customize_preview_init', array( $this, 'sfb_customize_preview_js' ) );
-			add_action( 'storefront_before_footer', array( $this, 'sfb_footer_bar' ), 10 );
+			add_action( 'wp_enqueue_scripts',       array( $this, 'sfb_styles' ),               999 );
+			add_action( 'customize_register',       array( $this, 'sfb_customize_register' ) );
+			add_action( 'customize_preview_init',   array( $this, 'sfb_customize_preview_js' ) );
+			add_action( 'storefront_before_footer', array( $this, 'sfb_footer_bar' ),           10 );
+			add_action( 'init',	                    array( $this, 'default_theme_mod_values' ), 10 );
+			add_action( 'customize_register',       array( $this, 'edit_default_customizer_settings' ), 99 );
 
 			$this->sfb_register_widget_area();
 		} else {
@@ -183,12 +193,13 @@ final class Storefront_Footer_Bar {
 	/**
 	 * Storefront install
 	 * If the user activates the plugin while having a different parent theme active, prompt them to install Storefront.
+	 *
 	 * @since   1.0.0
 	 * @return  void
 	 */
 	public function sfb_install_storefront_notice() {
 		echo '<div class="notice is-dismissible updated">
-				<p>' . __( 'Storefront Footer Bar requires that you use Storefront as your parent theme.', 'storefront-footer-bar' ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . __( 'Install Storefront now', 'storefront-footer-bar' ) . '</a></p>
+				<p>' . esc_attr__( 'Storefront Footer Bar requires that you use Storefront as your parent theme.', 'storefront-footer-bar' ) . ' <a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=install-theme&theme=storefront' ), 'install-theme_storefront' ) ) .'">' . __( 'Install Storefront now', 'storefront-footer-bar' ) . '</a></p>
 			</div>';
 	}
 
@@ -209,94 +220,137 @@ final class Storefront_Footer_Bar {
 	}
 
 	/**
+	 * Returns an array of the desired default Storefront Footer Bar options
+	 *
+	 * @return array
+	 */
+	public function get_storefront_footer_bar_defaults() {
+		return apply_filters( 'storefront_footer_bar_default_settings', $args = array(
+			'sfb_background_image' => '',
+			'sfb_background_color' => '#2c2d33',
+			'sfb_heading_color'    => '#ffffff',
+			'sfb_text_color'       => '#9aa0a7',
+			'sfb_link_color'       => '#ffffff',
+		) );
+	}
+
+	/**
+	 * Adds a value to each Storefront Footer Bar setting if one isn't already present.
+	 *
+	 * @uses get_storefront_default_setting_values()
+	 * @return void
+	 */
+	public function default_theme_mod_values() {
+		foreach ( Storefront_Footer_Bar::get_storefront_footer_bar_defaults() as $mod => $val ) {
+			add_filter( 'theme_mod_' . $mod, function( $setting ) use ( $val ) {
+				return $setting ? $setting : $val;
+			}, 10 );
+		}
+	}
+
+	/**
+	 * Set default Customizer settings.
+	 *
+	 * @param  array $wp_customize the Customizer object.
+	 * @uses   get_storefront_footer_bar_defaults()
+	 * @return void
+	 */
+	public function edit_default_customizer_settings( $wp_customize ) {
+		foreach ( Storefront_Footer_Bar::get_storefront_footer_bar_defaults() as $mod => $val ) {
+			$wp_customize->get_setting( $mod )->default = $val;
+		}
+	}
+
+	/**
 	 * Customizer Controls and settings
+	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function sfb_customize_register( $wp_customize ) {
 		/**
-	     * Add a new section
-	     */
-        $wp_customize->add_section( 'sfb_section' , array(
-		    'title'      	=> __( 'Footer Bar', 'storefront-extention-boilerplate' ),
-		    'priority'   	=> 55,
+		 * Add a new section
+		 */
+		$wp_customize->add_section( 'sfb_section' , array(
+			'title'    => __( 'Footer Bar', 'storefront-footer-bar' ),
+			'priority' => 55,
 		) );
 
 		/**
 		 * Background image
 		 */
 		$wp_customize->add_setting( 'sfb_background_image', array(
-			'default'			=> '',
+			'default'           => '',
 			'sanitize_callback'	=> 'esc_url_raw',
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Upload_Control( $wp_customize, 'sfb_background_image', array(
-			'label'			=> __( 'Background image', 'storefront-footer-bar' ),
-			'section'		=> 'sfb_section',
-			'settings'		=> 'sfb_background_image',
-			'priority'		=> 10,
+			'label'	   => __( 'Background image', 'storefront-footer-bar' ),
+			'section'  => 'sfb_section',
+			'settings' => 'sfb_background_image',
+			'priority' => 10,
 		) ) );
 
 		/**
 		 * Background color
 		 */
 		$wp_customize->add_setting( 'sfb_background_color', array(
-			'default'			=> apply_filters( 'storefront_default_header_background_color', '#2c2d33' ),
+			'default'			=> '#2c2d33',
 			'sanitize_callback'	=> 'sanitize_hex_color',
 			'transport'			=> 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_background_color', array(
-			'label'			=> __( 'Background color', 'storefront-footer-bar' ),
-			'section'		=> 'sfb_section',
-			'settings'		=> 'sfb_background_color',
-			'priority'		=> 15,
+			'label'	   => esc_attr__( 'Background color', 'storefront-footer-bar' ),
+			'section'  => 'sfb_section',
+			'settings' => 'sfb_background_color',
+			'priority' => 15,
 		) ) );
 
 		/**
 		 * Heading color
 		 */
 		$wp_customize->add_setting( 'sfb_heading_color', array(
-			'default'			=> apply_filters( 'sfb_default_heading_color', '#ffffff' ),
+			'default'           => '#ffffff',
 			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'			=> 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
+			'transport'	        => 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_heading_color', array(
-			'label'			=> __( 'Heading color', 'storefront-footer-bar' ),
-			'section'		=> 'sfb_section',
-			'settings'		=> 'sfb_heading_color',
-			'priority'		=> 20,
+			'label'	   => esc_attr__( 'Heading color', 'storefront-footer-bar' ),
+			'section'  => 'sfb_section',
+			'settings' => 'sfb_heading_color',
+			'priority' => 20,
 		) ) );
 
 		/**
 		 * Text color
 		 */
 		$wp_customize->add_setting( 'sfb_text_color', array(
-			'default'			=> apply_filters( 'storefront_default_header_text_color', '#9aa0a7' ),
+			'default'           => '#9aa0a7',
 			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'			=> 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
+			'transport'	        => 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_text_color', array(
-			'label'			=> __( 'Text color', 'storefront-footer-bar' ),
-			'section'		=> 'sfb_section',
-			'settings'		=> 'sfb_text_color',
-			'priority'		=> 30,
+			'label'	   => esc_attr__( 'Text color', 'storefront-footer-bar' ),
+			'section'  => 'sfb_section',
+			'settings' => 'sfb_text_color',
+			'priority' => 30,
 		) ) );
 
 		/**
 		 * Link color
 		 */
 		$wp_customize->add_setting( 'sfb_link_color', array(
-			'default'			=> apply_filters( 'storefront_default_header_link_color', '#ffffff' ),
+			'default'           => '#ffffff',
 			'sanitize_callback'	=> 'sanitize_hex_color',
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_link_color', array(
-			'label'			=> __( 'Link color', 'storefront-footer-bar' ),
-			'section'		=> 'sfb_section',
-			'settings'		=> 'sfb_link_color',
-			'priority'		=> 40,
+			'label'	   => esc_attr__( 'Link color', 'storefront-footer-bar' ),
+			'section'  => 'sfb_section',
+			'settings' => 'sfb_link_color',
+			'priority' => 40,
 		) ) );
 	}
 
@@ -308,11 +362,11 @@ final class Storefront_Footer_Bar {
 	public function sfb_styles() {
 		wp_enqueue_style( 'sfb-styles', plugins_url( '/assets/css/style.css', __FILE__ ) );
 
-		$footer_bar_bg_image 	= esc_url( get_theme_mod( 'sfb_background_image', '' ) );
-		$footer_bar_bg 			= storefront_sanitize_hex_color( get_theme_mod( 'sfb_background_color', apply_filters( 'storefront_default_header_background_color', '#2c2d33' ) ) );
-		$footer_bar_text 		= storefront_sanitize_hex_color( get_theme_mod( 'sfb_text_color', apply_filters( 'storefront_default_header_text_color', '#9aa0a7' ) ) );
-		$footer_bar_headings 	= storefront_sanitize_hex_color( get_theme_mod( 'sfb_heading_color', apply_filters( 'sfb_default_heading_color', '#ffffff' ) ) );
-		$footer_bar_links 		= storefront_sanitize_hex_color( get_theme_mod( 'sfb_link_color', apply_filters( 'storefront_default_header_link_color', '#ffffff' ) ) );
+		$footer_bar_bg_image = get_theme_mod( 'sfb_background_image' );
+		$footer_bar_bg       = get_theme_mod( 'sfb_background_color' );
+		$footer_bar_text     = get_theme_mod( 'sfb_text_color' );
+		$footer_bar_headings = get_theme_mod( 'sfb_heading_color' );
+		$footer_bar_links    = get_theme_mod( 'sfb_link_color' );
 
 		$sfb_style = '
 		.sfb-footer-bar {
