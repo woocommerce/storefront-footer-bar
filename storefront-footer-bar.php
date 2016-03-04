@@ -3,7 +3,7 @@
  * Plugin Name:			Storefront Footer Bar
  * Plugin URI:			http://woothemes.com/storefront/
  * Description:			Add a full width widgetised region above the default Storefront footer widget area.
- * Version:				1.0.2
+ * Version:				1.0.3
  * Author:				WooThemes
  * Author URI:			http://woothemes.com/
  * Requires at least:	4.1.0
@@ -88,7 +88,7 @@ final class Storefront_Footer_Bar {
 		$this->token       = 'storefront-footer-bar';
 		$this->plugin_url  = plugin_dir_url( __FILE__ );
 		$this->plugin_path = plugin_dir_path( __FILE__ );
-		$this->version     = '1.0.2';
+		$this->version     = '1.0.3';
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -177,11 +177,11 @@ final class Storefront_Footer_Bar {
 		$theme = wp_get_theme();
 
 		if ( 'Storefront' == $theme->name || 'storefront' == $theme->template && apply_filters( 'storefront_footer_bar_supported', true ) ) {
-			add_action( 'wp_enqueue_scripts',       array( $this, 'sfb_styles' ),               999 );
+			add_action( 'wp_enqueue_scripts',       array( $this, 'sfb_styles' ),                       999 );
 			add_action( 'customize_register',       array( $this, 'sfb_customize_register' ) );
 			add_action( 'customize_preview_init',   array( $this, 'sfb_customize_preview_js' ) );
-			add_action( 'storefront_before_footer', array( $this, 'sfb_footer_bar' ),           10 );
-			add_action( 'init',	                    array( $this, 'default_theme_mod_values' ), 10 );
+			add_action( 'storefront_before_footer', array( $this, 'sfb_footer_bar' ),                   10 );
+			add_action( 'init',	                    array( $this, 'default_theme_mod_values' ),         99 );
 			add_action( 'customize_register',       array( $this, 'edit_default_customizer_settings' ), 99 );
 
 			$this->sfb_register_widget_area();
