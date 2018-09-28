@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name:			Storefront Footer Bar
- * Plugin URI:			http://woothemes.com/storefront/
+ * Plugin URI:			https://woocommerce.com/products/storefront-footer-bar/
  * Description:			Add a full width widgetised region above the default Storefront footer widget area.
- * Version:				1.0.3
+ * Version:				1.0.4
  * Author:				WooThemes
- * Author URI:			http://woothemes.com/
+ * Author URI:			https://woocommerce.com/storefront/
  * Requires at least:	4.1.0
- * Tested up to:		4.4.2
+ * Tested up to:		4.9.8
  *
  * Text Domain: storefront-footer-bar
  * Domain Path: /languages/
@@ -371,7 +371,6 @@ final class Storefront_Footer_Bar {
 		$sfb_style = '
 		.sfb-footer-bar {
 			background-color: ' . $footer_bar_bg . ';
-			background-image: url(' . $footer_bar_bg_image . ');
 		}
 
 		.sfb-footer-bar .widget {
@@ -390,6 +389,10 @@ final class Storefront_Footer_Bar {
 		.sfb-footer-bar .widget a {
 			color: ' . $footer_bar_links . ';
 		}';
+		
+		if ( !empty( $footer_bar_bg_image ) ) {
+			$sfb_style .= '.sfb-footer-bar { background-image: url(' . $footer_bar_bg_image . '); }';
+		}
 
 		wp_add_inline_style( 'sfb-styles', $sfb_style );
 	}
