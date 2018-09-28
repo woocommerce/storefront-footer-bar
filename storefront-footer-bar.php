@@ -371,7 +371,6 @@ final class Storefront_Footer_Bar {
 		$sfb_style = '
 		.sfb-footer-bar {
 			background-color: ' . $footer_bar_bg . ';
-			background-image: url(' . $footer_bar_bg_image . ');
 		}
 
 		.sfb-footer-bar .widget {
@@ -390,6 +389,10 @@ final class Storefront_Footer_Bar {
 		.sfb-footer-bar .widget a {
 			color: ' . $footer_bar_links . ';
 		}';
+		
+		if ( !empty( $footer_bar_bg_image ) ) {
+			$sfb_style .= '.sfb-footer-bar { background-image: url(' . $footer_bar_bg_image . '); }';
+		}
 
 		wp_add_inline_style( 'sfb-styles', $sfb_style );
 	}
