@@ -1,9 +1,9 @@
 === Storefront Footer Bar ===
-Contributors: jameskoster, woothemes
+Contributors: jameskoster, woothemes, bobbingwide
 Tags: woocommerce, ecommerce, storefront, footer, widgets
 Requires at least: 3.5
-Tested up to: 4.4.2
-Stable tag: 1.0.3
+Tested up to: 4.9.8
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ This plugin will only work with the [Storefront](http://wordpress.org/themes/sto
 1. The Footer Bar with a text widget.
 
 == Changelog ==
+
+= 1.0.4 - 09.28.2016 =
+* Fix - Issue #2 - Do not set the background-image property when no background image is defined.
 
 = 1.0.3 - 03.04.2016 =
 * Fix - Defaults not being set on activation.
