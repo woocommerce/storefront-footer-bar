@@ -1,5 +1,5 @@
 === Storefront Footer Bar ===
-Contributors: jameskoster, woothemes
+Contributors: woocommerce,automattic,jameskoster,woothemes
 Tags: woocommerce, ecommerce, storefront, footer, widgets
 Requires at least: 4.1
 Tested up to: 4.9
