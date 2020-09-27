@@ -107,7 +107,7 @@ module.exports = function( grunt ) {
 					{
 						expand: true,
 						cwd: `${sourceFolderRelPath}/scss`,
-						src: ['**/*.scss¿'],
+						src: ['**/*.scss'],
 						dest: `${destFolderRelPath}/css`,
 						ext: '.css',
 						extDot: 'last',

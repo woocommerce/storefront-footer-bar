@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Storefront Footer Bar
- * Plugin URI:        http://woothemes.com/storefront/
+ * Plugin URI:        https://woocommerce.com/storefront/
  * Description:       Add a full width widgetised region above the default Storefront footer widget area.
  * Version:           1.0.4
- * Author:            WooThemes
- * Author URI:        http://woothemes.com/
+ * Author:            WooCommerce
+ * Author URI:        http://woocommerce.com/
  * Requires at least: 4.1.0
  * Tested up to:      4.9
  *
