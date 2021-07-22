@@ -179,7 +179,6 @@ final class Storefront_Footer_Bar {
 		if ( 'Storefront' == $theme->name || 'storefront' == $theme->template && apply_filters( 'storefront_footer_bar_supported', true ) ) {
 			add_action( 'wp_enqueue_scripts',       array( $this, 'sfb_styles' ),                       999 );
 			add_action( 'customize_register',       array( $this, 'sfb_customize_register' ) );
-			add_action( 'customize_preview_init',   array( $this, 'sfb_customize_preview_js' ) );
 			add_action( 'storefront_before_footer', array( $this, 'sfb_footer_bar' ),                   10 );
 			add_action( 'init',	                    array( $this, 'default_theme_mod_values' ),         99 );
 			add_action( 'customize_register',       array( $this, 'edit_default_customizer_settings' ), 99 );
@@ -296,7 +295,6 @@ final class Storefront_Footer_Bar {
 		$wp_customize->add_setting( 'sfb_background_color', array(
 			'default'			=> '#2c2d33',
 			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'			=> 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_background_color', array(
@@ -312,7 +310,6 @@ final class Storefront_Footer_Bar {
 		$wp_customize->add_setting( 'sfb_heading_color', array(
 			'default'           => '#ffffff',
 			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'	        => 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_heading_color', array(
@@ -328,7 +325,6 @@ final class Storefront_Footer_Bar {
 		$wp_customize->add_setting( 'sfb_text_color', array(
 			'default'           => '#9aa0a7',
 			'sanitize_callback'	=> 'sanitize_hex_color',
-			'transport'	        => 'postMessage', // Refreshes instantly via js. See customizer.js. (default = refresh).
 		) );
 
 		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sfb_text_color', array(
@@ -395,15 +391,6 @@ final class Storefront_Footer_Bar {
 		}
 
 		wp_add_inline_style( 'sfb-styles', $sfb_style );
-	}
-
-	/**
-	 * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
-	 *
-	 * @since  1.0.0
-	 */
-	public function sfb_customize_preview_js() {
-		wp_enqueue_script( 'sfb-customizer', plugins_url( '/assets/js/customizer.min.js', __FILE__ ), array( 'customize-preview' ), '1.1', true );
 	}
 
 	/**
